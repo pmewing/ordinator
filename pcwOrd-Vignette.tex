@@ -1,0 +1,985 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={pcwOrd: (partial) (constrained) (weighted) ordination},
+  pdfauthor={Patrick Ewing},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% https://github.com/rstudio/rmarkdown/issues/337
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+% https://github.com/rstudio/rmarkdown/pull/252
+\usepackage{titling}
+\setlength{\droptitle}{-2em}
+
+\pretitle{\vspace{\droptitle}\centering\huge}
+\posttitle{\par}
+
+\preauthor{\centering\large\emph}
+\postauthor{\par}
+
+\predate{\centering\large\emph}
+\postdate{\par}
+
+\title{pcwOrd: (partial) (constrained) (weighted) ordination}
+\author{Patrick Ewing}
+\date{2020-03-04}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+\newpage
+
+\hypertarget{motivation}{%
+\section{Motivation}\label{motivation}}
+
+Many ordination packages exist for ecologists using R - \texttt{vegan}
+is excellent, for example. But none readily perform (to my knowledge)
+weighted, partial constrained ordinations.
+
+The motivation for this is to analyze compositional ecological data -
+especially high throughput sequencing data - with methods that are
+robust, reproducible, and transparent. Compositional data contains only
+relative data (think relative abundance), and so requires a bit of extra
+care to analyze. The dominant approach is to perform a log-ratio
+transformation, then use principle components analysis - combined, this
+is called log-ratio analysis. For an enterance into this literature, see
+Greenacre and Aitchison (2002), Greenacre and Lewi (2009), and Quinn et
+al (2018).
+
+In particular, Greenacre and Lewi (2002) suggest using weighted
+log-ratio analysis, as unweighted log-ratio analysis is susceptible to
+noise in low-abundance features. Raw values of low-abundance features
+have higher relative variance than raw values of high-abundance
+features; therefore, the log-ratios of low abundance features are also
+noisy. When low-abundance features dominate a solution the distances and
+inferences made about samples is less robust to error and noise. Note
+that correspondence analysis also is suceptible to dominance by
+low-abundance features.
+
+Weighted log-ratio analysis down-weights these uncertain, low-abundance
+features. As a result, the observed distances among samples should be
+more reproducible across experiments.
+
+\texttt{vegan} can perform constrained and partiald log-ratio analysis
+if the community matrix is log-transformed beforehand. However, it does
+not provide a straightforward way to weight columns and working with
+ordination objects is not intuitive. \texttt{easyCODA} allows weighted
+and constrained log-ratio analysis, but does not allow partialing of
+nuisance effects and does not provide hypothesis testing.
+\texttt{pcwOrd} allows partialed, constrained, and weighted ordinations,
+and also provides utility functions for investigating ordination
+objects, visualization, and hypothesis testing. The code is written to
+be self-documenting. Maybe you'll agree.
+
+This isn't an R package yet, so load the functions with
+\texttt{source()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{libs =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'easyCODA'}\NormalTok{,  }\CommentTok{# log-ratio analysis and CLR analysis}
+         \StringTok{'vegan'}\NormalTok{)     }\CommentTok{# multivariate statistics}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in}\NormalTok{ libs) \{}
+  \ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\KeywordTok{require}\NormalTok{(i, }\DataTypeTok{character.only=}\OtherTok{TRUE}\NormalTok{)) \{}
+    \KeywordTok{install.packages}\NormalTok{(i)}
+    \ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\KeywordTok{require}\NormalTok{(i, }\DataTypeTok{character.only=}\OtherTok{TRUE}\NormalTok{)) }\KeywordTok{stop}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\StringTok{"Cannot load"}\NormalTok{, i))}
+\NormalTok{  \}\}}
+
+\CommentTok{# pcwOrd}
+\KeywordTok{load}\NormalTok{(}\StringTok{'pcwOrd_0.1.Rdata'}\NormalTok{)}
+
+\CommentTok{# data}
+\NormalTok{spider =}\StringTok{ }\KeywordTok{readRDS}\NormalTok{(}\StringTok{'Spider.RDS'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+This vignette will demonstrate the features of pcwOrd: ordination,
+hypothesis-testing, and visualization. I'll use the \texttt{spiders}
+dataset from \texttt{mvabund}. This dataset has two tables:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  A \texttt{data.frame} of environmental variables, to which I'll add a
+  categorical version of \texttt{soil.dry}*.
+\item
+  A \texttt{matrix} of community data.
+\end{enumerate}
+
+Certain pcwOrd functions use the rownames of the environmental and
+community data to cross-reference, so we want to ensure both tables have
+rownames. Usually these are something meaningful, like sample IDs.
+
+*technically this should be ordinal, but we'll treat it as categorical.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# environmental data}
+\NormalTok{envi =}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(spider}\OperatorTok{$}\NormalTok{x)}
+
+\CommentTok{# categorical soil wetness}
+\NormalTok{cats =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'dry'}\NormalTok{, }\StringTok{'damp'}\NormalTok{, }\StringTok{'wet'}\NormalTok{, }\StringTok{'soaking'}\NormalTok{)}
+\NormalTok{cc =}\StringTok{ }\KeywordTok{ceiling}\NormalTok{(envi}\OperatorTok{$}\NormalTok{soil.dry)}
+\NormalTok{envi}\OperatorTok{$}\NormalTok{soil.cat =}\StringTok{ }\KeywordTok{factor}\NormalTok{(cats[cc],}
+                       \DataTypeTok{levels=}\NormalTok{cats)}
+
+\CommentTok{# community data}
+\NormalTok{comm =}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(spider}\OperatorTok{$}\NormalTok{abund)}
+
+\CommentTok{# rownames}
+\NormalTok{nobs =}\StringTok{ }\KeywordTok{nrow}\NormalTok{(comm)}
+\NormalTok{row_names =}\StringTok{ }\KeywordTok{c}\NormalTok{(letters[], LETTERS[])[}\DecValTok{1}\OperatorTok{:}\NormalTok{nobs]}
+\KeywordTok{rownames}\NormalTok{(envi) =}\StringTok{ }\NormalTok{row_names}
+\KeywordTok{rownames}\NormalTok{(comm) =}\StringTok{ }\NormalTok{row_names}
+
+\KeywordTok{str}\NormalTok{(envi)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    28 obs. of  7 variables:
+##  $ soil.dry     : num  2.33 3.05 2.56 2.67 3.02 ...
+##  $ bare.sand    : num  0 0 0 0 0 ...
+##  $ fallen.leaves: num  0 1.79 0 0 0 ...
+##  $ moss         : num  3.04 1.1 2.4 2.4 0 ...
+##  $ herb.layer   : num  4.45 4.56 4.61 4.62 4.62 ...
+##  $ reflection   : num  3.91 1.61 3.69 3 2.3 ...
+##  $ soil.cat     : Factor w/ 4 levels "dry","damp","wet",..: 3 4 3 3 4 4 4 3 3 3 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{comm[}\DecValTok{1}\OperatorTok{:}\DecValTok{8}\NormalTok{, }\DecValTok{1}\OperatorTok{:}\DecValTok{8}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Alopacce Alopcune Alopfabr Arctlute Arctperi Auloalbi Pardlugu Pardmont
+## a       25       10        0        0        0        4        0       60
+## b        0        2        0        0        0       30        1        1
+## c       15       20        2        2        0        9        1       29
+## d        2        6        0        1        0       24        1        7
+## e        1       20        0        2        0        9        1        2
+## f        0        6        0        6        0        6        0       11
+## g        2        7        0       12        0       16        1       30
+## h        0       11        0        0        0        7       55        2
+\end{verbatim}
+
+\hypertarget{basic-functions}{%
+\section{Basic Functions}\label{basic-functions}}
+
+\hypertarget{ordination}{%
+\subsection{Ordination}\label{ordination}}
+
+We'll first perform a basic principle components analysis of the
+community with \texttt{pcwOrd()} and visualize the results with
+\texttt{plot\_ord}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pca =}\StringTok{ }\KeywordTok{pcwOrd}\NormalTok{(comm)}
+\KeywordTok{plot_ord}\NormalTok{(pca, }
+         \DataTypeTok{main=}\StringTok{'Spiders: Basic PCA'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rescaling standard scores by 10.12
+\end{verbatim}
+
+\includegraphics{pcwOrd-Vignette_files/figure-latex/pca_pcword-1.pdf}
+
+The \texttt{pca} object is a list of class \texttt{pcwOrd} that contains
+a number of items. See the documentation for \texttt{pcwOrd}. Important
+ones are: \texttt{\textquotesingle{}Y\_scaled\textquotesingle{}} - the
+community matrix after centering, scaling, and/or weighting but before
+further analysis;
+\texttt{\textquotesingle{}unconstrained\textquotesingle{}} - the
+singular value decomosition matrices (left
+\texttt{\textquotesingle{}u\textquotesingle{}} and right
+\texttt{\textquotesingle{}v\textquotesingle{}}) and values
+(\texttt{\textquotesingle{}d\textquotesingle{}}). All relevant
+information about this ordination can be calculated from these values.
+
+\hypertarget{eigenvalues}{%
+\subsubsection{Eigenvalues}\label{eigenvalues}}
+
+For example, if we want to calculate eigenvalues of this unconstrained
+ordination, we need to access the singular values (vector \texttt{d}) of
+the unconstrained solution:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pca}\OperatorTok{$}\NormalTok{unconstrained}\OperatorTok{$}\NormalTok{d}\OperatorTok{^}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] 251.7432705  58.7674666  25.3873166  11.7224346   5.6704074   4.1539497
+##  [7]   2.7649418   2.3272743   1.6733360   0.8060037   0.6634983   0.1884040
+\end{verbatim}
+
+\hypertarget{axis-variances}{%
+\subsubsection{Axis Variances}\label{axis-variances}}
+
+We can view these same data by calling ord\_variance, which summarizes
+the variance explained by each axis in the solution:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ord_variance}\NormalTok{(pca)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $type
+## [1] "variance"
+## 
+## $summary
+##              total partialed constrained unconstrained
+## value     365.8683         0           0      365.8683
+## pct_total 100.0000         0           0      100.0000
+## 
+## $total
+##              Total
+## value     365.8683
+## pct_group 100.0000
+## pct_total 100.0000
+## 
+## $partialed
+##          
+## value    
+## pct_group
+## pct_total
+## 
+## $constrained
+##          
+## value    
+## pct_group
+## pct_total
+## 
+## $unconstrained
+##              uAxis1   uAxis2    uAxis3    uAxis4   uAxis5   uAxis6    uAxis7
+## value     251.74327 58.76747 25.387317 11.722435 5.670407 4.153950 2.7649418
+## pct_group  68.80707 16.06246  6.938922  3.204004 1.549849 1.135367 0.7557205
+## pct_total  68.80707 16.06246  6.938922  3.204004 1.549849 1.135367 0.7557205
+##              uAxis8    uAxis9   uAxis10   uAxis11    uAxis12
+## value     2.3272743 1.6733360 0.8060037 0.6634983 0.18840395
+## pct_group 0.6360962 0.4573602 0.2202989 0.1813489 0.05149502
+## pct_total 0.6360962 0.4573602 0.2202989 0.1813489 0.05149502
+\end{verbatim}
+
+\hypertarget{scree-plots}{%
+\subsubsection{Scree plots}\label{scree-plots}}
+
+We can also visualize variances across axes in a scree plot with
+\texttt{ord\_scree()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ord_scree}\NormalTok{(pca)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{pcwOrd-Vignette_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\hypertarget{calculate-scores}{%
+\subsubsection{Calculate scores}\label{calculate-scores}}
+
+If you want to make your own biplots, you can calculate row, column,
+centeroid, and biplot scores by calling \texttt{ord\_scores}. Scores can
+be principle, standard, or contribution - with the latter being raw
+singular values (either \texttt{\textquotesingle{}u\textquotesingle{}}
+or \texttt{\textquotesingle{}v\textquotesingle{}}). To make plotting
+easy, we can also add grouping information from the \texttt{envi} table:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{grp =}\StringTok{ }\NormalTok{envi[, }\StringTok{'soil.cat'}\NormalTok{, drop=}\OtherTok{FALSE}\NormalTok{] }\CommentTok{# preserve rownames}
+\NormalTok{rowscores =}\StringTok{ }\KeywordTok{ord_scores}\NormalTok{(pca, }
+                       \DataTypeTok{choice=}\StringTok{'row'}\NormalTok{, }
+                       \DataTypeTok{scaling=}\StringTok{'principle'}\NormalTok{, }
+                       \DataTypeTok{axes=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{), }
+                       \DataTypeTok{add_grouping=}\NormalTok{grp)}
+\KeywordTok{head}\NormalTok{(rowscores)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      Axis1      Axis2      Axis3 soil.cat
+## a 1.509623  2.6053593 -0.6811249      wet
+## b 1.706576 -0.8793122 -1.0806346  soaking
+## c 2.004352  0.8598015 -0.6754797      wet
+## d 4.702137 -0.4294234 -1.6207403      wet
+## e 6.987565 -1.1952552  3.6085514  soaking
+## f 1.641038 -0.4773010 -0.3333297  soaking
+\end{verbatim}
+
+When plotting both standard and principle scores, often you'll need to
+rescale one of them for visualization:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{colscores =}\StringTok{ }\KeywordTok{ord_scores}\NormalTok{(pca, }
+                       \DataTypeTok{choice=}\StringTok{'column'}\NormalTok{, }
+                       \DataTypeTok{scaling=}\StringTok{'standard'}\NormalTok{, }
+                       \DataTypeTok{axes=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{))}
+\NormalTok{scaled_colscores =}\StringTok{ }\KeywordTok{scale_scores}\NormalTok{(colscores, }
+\NormalTok{                                rowscores) }\CommentTok{# can also specify manual scaling factor}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rescaling standard scores by 8.271
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(}\DataTypeTok{original =}\NormalTok{ colscores, }
+            \DataTypeTok{rescaled =}\NormalTok{ scaled_colscores), }
+\NormalTok{       head)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $original
+##                Axis1       Axis2       Axis3
+## Alopacce -0.03365963  0.16120685  0.06324170
+## Alopcune  0.10223352  0.07024215  0.04972208
+## Alopfabr -0.04435444 -0.03233246  0.08709767
+## Arctlute  0.03001178  0.00254796  0.01295151
+## Arctperi -0.01985399 -0.02338508  0.03683295
+## Auloalbi  0.10368699 -0.01977533 -0.12316564
+## 
+## $rescaled
+##               Axis1       Axis2      Axis3
+## Alopacce -0.2784154  1.33342131  0.5231032
+## Alopcune  0.8456238  0.58100745  0.4112758
+## Alopfabr -0.3668775 -0.26743774  0.7204277
+## Arctlute  0.2482422  0.02107543  0.1071284
+## Arctperi -0.1642221 -0.19342952  0.3046635
+## Auloalbi  0.8576462 -0.16357151 -1.0187637
+\end{verbatim}
+
+\hypertarget{identify-top-features}{%
+\subsubsection{Identify top features}\label{identify-top-features}}
+
+Finally, it's useful to identify the top features. The default
+\texttt{scaling=\textquotesingle{}contribution\textquotesingle{}} gives
+top contribution scores - i.e.~the features that contribute most to the
+axes chosen. Here, we identify the spider taxa that have the five
+highest mean contributions across the first two axes:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{top_scores}\NormalTok{(pca, }\DataTypeTok{n=}\DecValTok{5}\NormalTok{, }\DataTypeTok{choice=}\StringTok{'column'}\NormalTok{, }\DataTypeTok{scaling=}\StringTok{'contribution'}\NormalTok{, }\DataTypeTok{axes=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          mean_contribution
+## Pardmont         0.9681618
+## Trocterr         0.6288081
+## Pardpull         0.5841149
+## Pardnigr         0.4835553
+## Alopacce         0.1646834
+## attr(,"axes")
+## [1] 1 2
+\end{verbatim}
+
+\hypertarget{more-ordinations}{%
+\section{More ordinations}\label{more-ordinations}}
+
+\hypertarget{log-ratio-analysis}{%
+\subsection{Log-ratio analysis}\label{log-ratio-analysis}}
+
+To perform log-ratio analysis:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Remove zeros from your data. For simplicity, I'll replace zeros with a
+  pseudocount of 0.5. Note that I am \emph{not} adding the pseudocount
+  as \texttt{x\ +\ 0.5}, as this will distort the ratios between
+  observations.
+\item
+  Close the community matrix, so that all abundances are relative
+  abundances and \texttt{rowSums(x)\ =\ 1}.
+\item
+  Perform the log-ratio transformation of your choice. The centered
+  log-ratio (CLR), where values are centered on the geometric mean, is a
+  common choice.
+\item
+  Run principle components analysis on the log-ratio transformed matrix
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Pseudocounts}
+\NormalTok{cc =}\StringTok{ }\NormalTok{comm}
+\NormalTok{cc[cc}\OperatorTok{==}\DecValTok{0}\NormalTok{] =}\StringTok{ }\FloatTok{0.5} \CommentTok{# replace zeros without adding to all values!}
+
+\CommentTok{# Close the community}
+\NormalTok{closed_comm =}\StringTok{ }\KeywordTok{sweep}\NormalTok{(cc, }\DecValTok{1}\NormalTok{, }\KeywordTok{rowSums}\NormalTok{(comm), }\StringTok{'/'}\NormalTok{) }\CommentTok{# close to relative abundance}
+
+\CommentTok{# perform centered log-ratio}
+\NormalTok{geo_mean =}\StringTok{ }\KeywordTok{apply}\NormalTok{(closed_comm, }\DecValTok{1}\NormalTok{, }
+                 \ControlFlowTok{function}\NormalTok{(x) \{}
+                   \KeywordTok{exp}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{log}\NormalTok{(x))}\OperatorTok{/}\KeywordTok{length}\NormalTok{(x))}
+\NormalTok{                 \})}
+\NormalTok{lr_comm =}\StringTok{  }\KeywordTok{sweep}\NormalTok{(closed_comm, }\DecValTok{1}\NormalTok{, geo_mean, }\StringTok{'/'}\NormalTok{)}
+\NormalTok{lr_comm =}\StringTok{ }\KeywordTok{log}\NormalTok{(lr_comm, }\DecValTok{2}\NormalTok{)}
+
+\NormalTok{lra =}\StringTok{ }\KeywordTok{pcwOrd}\NormalTok{(lr_comm)}
+\KeywordTok{plot_ord}\NormalTok{(lra, }
+         \DataTypeTok{main=}\StringTok{'Spiders: Log Ratio Analysis'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rescaling standard scores by 0.7505
+\end{verbatim}
+
+\includegraphics{pcwOrd-Vignette_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\hypertarget{weighted-ordinations}{%
+\subsection{Weighted ordinations}\label{weighted-ordinations}}
+
+To weight either rows or columns, for example by sequencing depth or
+column prevalence, you have three options:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Tell pcwOrd to calculate weights automatically by setting
+  \texttt{weight\_rows=TRUE} or \texttt{weight\_columns=TRUE}. This uses
+  row or column masses as weights (via \texttt{rowSums}, for example).
+\item
+  Specify a vector of length \texttt{nrow()} or \texttt{ncol()} with the
+  weights.
+\item
+  Input the result of \texttt{easyCODA::CLR()}, which returns a weighted
+  CLR transformation and row-weights. This approach is demonstrated
+  below:
+\end{enumerate}
+
+Here is a weighted LRA:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wlr_comm =}\StringTok{ }\KeywordTok{CLR}\NormalTok{(closed_comm) }\CommentTok{# CLR based on column-weighted geometric mean, plus column weights}
+
+\NormalTok{w_lra =}\StringTok{ }\KeywordTok{pcwOrd}\NormalTok{(wlr_comm)}
+\KeywordTok{plot_ord}\NormalTok{(w_lra, }
+         \DataTypeTok{main=}\StringTok{'Spiders: Column-Weighted LRA'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rescaling standard scores by 0.1744
+\end{verbatim}
+
+\includegraphics{pcwOrd-Vignette_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+In this situation, the results of weighted and unweighted ordinations
+are approximately the same. See Greenacre and Lewi (2009) for a
+discussion of when weighted log-ratio analysis might be advantageous
+over a non-weighted log ratio analysis.
+
+\hypertarget{constrained-ordination}{%
+\subsection{Constrained ordination}\label{constrained-ordination}}
+
+We might be interested in how these spiders associate with environmental
+variables. For example, we might be interested in whether moss and
+reflection structures spider communities. A constrained ordination like
+redundancy analysis will do this: pcwOrd will regress the community
+matrix against moss and reflectivity, and then ordinate the fitted
+values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{X =}\StringTok{ }\NormalTok{envi[, }\KeywordTok{c}\NormalTok{(}\StringTok{'moss'}\NormalTok{, }\StringTok{'reflection'}\NormalTok{)] }\CommentTok{# preserve rownames}
+\NormalTok{rda =}\StringTok{ }\KeywordTok{pcwOrd}\NormalTok{(comm, }\DataTypeTok{X=}\NormalTok{X)}
+
+\KeywordTok{plot_ord}\NormalTok{(rda, }
+         \DataTypeTok{main=}\StringTok{'Spiders by Moss Coverage'}\NormalTok{, }
+         \DataTypeTok{color_legend_position=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.8}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rescaling standard scores by 8.774
+\end{verbatim}
+
+\begin{verbatim}
+## Rescaling standard scores by 9.116
+\end{verbatim}
+
+\includegraphics{pcwOrd-Vignette_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+In this plot, colors show moss coverage, the first column in X.
+
+\hypertarget{significance-testing}{%
+\subsubsection{Significance testing}\label{significance-testing}}
+
+To test whether spiders vary with wetness class, run a PERMANOVA on the
+ordination with \texttt{permute\_ord()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pp =}\StringTok{ }\KeywordTok{permute_ord}\NormalTok{(rda)}
+\NormalTok{pp}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   permute_on total_variance variance_after_partialing   fitted residuals num_df
+## 1    partial       365.8683                  365.8683 98.72652  267.1418      2
+##   denom_df   F_stat p_val F_perm
+## 1       25 4.619575 0.001    999
+\end{verbatim}
+
+\texttt{permute\_ord()} has a number of permutation models that parallel
+the options in \texttt{vegan::permutest()} - and \texttt{permute\_ord()}
+will return the same results as \texttt{vegan::permutest()} with the
+same randomization seed. We see a p-value of 0.001 after 999
+permutations.
+
+\hypertarget{partial-ordination}{%
+\subsection{Partial ordination}\label{partial-ordination}}
+
+Say we want to look at how moass affects spider communities
+independently of moisture class. We can partial this out as Z:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Z =}\StringTok{ }\NormalTok{envi[, }\StringTok{'soil.cat'}\NormalTok{, drop=}\OtherTok{FALSE}\NormalTok{] }\CommentTok{# preserve rownames}
+\NormalTok{X =}\StringTok{ }\NormalTok{envi[, }\KeywordTok{c}\NormalTok{(}\StringTok{'moss'}\NormalTok{, }\StringTok{'reflection'}\NormalTok{), drop=}\OtherTok{FALSE}\NormalTok{]}
+
+\NormalTok{pcrda =}\StringTok{ }\KeywordTok{pcwOrd}\NormalTok{(closed_comm, X, Z)}
+
+\KeywordTok{plot_ord}\NormalTok{(pcrda, }
+         \DataTypeTok{main=}\StringTok{'Spiders by moss and reflection, partialed by wetness'}\NormalTok{, }
+         \DataTypeTok{shape_legend_position=}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\FloatTok{0.04}\NormalTok{, }\FloatTok{0.01}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rescaling standard scores by 0.03821
+\end{verbatim}
+
+\begin{verbatim}
+## Rescaling standard scores by 0.05596
+\end{verbatim}
+
+\includegraphics{pcwOrd-Vignette_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+Each of the wetness categories is centered at zero, as expected due to
+partialing. Moss increases to the bottom left (darker red, and arrows).
+This model is highly significant:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{permute_ord}\NormalTok{(pcrda)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   permute_on total_variance variance_after_partialing      fitted   residuals
+## 1    partial     0.01927485                0.01070139 0.004584283 0.006117103
+##   num_df denom_df   F_stat p_val F_perm
+## 1      2       22 8.243627 0.001    999
+\end{verbatim}
+
+\hypertarget{partialed-constrained-weighted-ordination}{%
+\subsection{Partialed, constrained, weighted
+ordination}\label{partialed-constrained-weighted-ordination}}
+
+The reason for this package is to perform partial, constrained, weighted
+ordinations. Here is a weighted log-ratio analysis of the spider
+community, constrained by moss and reflection, with moisture category
+partialed out:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Y =}\StringTok{ }\KeywordTok{CLR}\NormalTok{(closed_comm)}
+
+\NormalTok{pcw_ord =}\StringTok{ }\KeywordTok{pcwOrd}\NormalTok{(Y, X, Z)}
+
+\KeywordTok{plot_ord}\NormalTok{(pcw_ord, }
+         \DataTypeTok{main=}\StringTok{'Partialed, Constrained, Weighted Log-Ratio Analysis'}\NormalTok{, }
+         \DataTypeTok{shape_legend_position=}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\FloatTok{0.4}\NormalTok{, }\FloatTok{0.1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rescaling standard scores by 0.1324
+\end{verbatim}
+
+\begin{verbatim}
+## Rescaling standard scores by 0.6076
+\end{verbatim}
+
+\includegraphics{pcwOrd-Vignette_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\hypertarget{comparison-to-vegan-and-easycoda}{%
+\section{\texorpdfstring{Comparison to \texttt{vegan} and
+\texttt{easyCODA}}{Comparison to vegan and easyCODA}}\label{comparison-to-vegan-and-easycoda}}
+
+\texttt{pcwOrd} gives the same results as comparable \texttt{vegan} and
+\texttt{easycCODA} functions.
+
+Returning to eigenvalues: these eigenvalues are exactly the same as
+calculated by easyCODA's PCA, and solutions are the same:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{easy_pca =}\StringTok{ }\KeywordTok{PCA}\NormalTok{(comm, }\DataTypeTok{weight=}\OtherTok{FALSE}\NormalTok{)}
+
+\KeywordTok{rbind}\NormalTok{(}\DataTypeTok{pcwOrd =}\NormalTok{ pca}\OperatorTok{$}\NormalTok{unconstrained}\OperatorTok{$}\NormalTok{d}\OperatorTok{^}\DecValTok{2}\NormalTok{,}
+      \DataTypeTok{easyCODA =}\NormalTok{ easy_pca}\OperatorTok{$}\NormalTok{sv}\OperatorTok{^}\DecValTok{2}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              [,1]     [,2]     [,3]     [,4]     [,5]    [,6]     [,7]     [,8]
+## pcwOrd   251.7433 58.76747 25.38732 11.72243 5.670407 4.15395 2.764942 2.327274
+## easyCODA 251.7433 58.76747 25.38732 11.72243 5.670407 4.15395 2.764942 2.327274
+##              [,9]     [,10]     [,11]    [,12]
+## pcwOrd   1.673336 0.8060037 0.6634983 0.188404
+## easyCODA 1.673336 0.8060037 0.6634983 0.188404
+\end{verbatim}
+
+Eigenvalues are not identical to \texttt{vegan} eigenvalues, because
+\texttt{pcwOrd} (and \texttt{easyCODA}) weights the initial community
+matrix rows by \texttt{1/sqrt(nrow)}, while \texttt{vegan} weights rows
+by \texttt{1/sqrt(nrow-1)}. You can access \texttt{vegan}-style
+weighting, which will agree with vegan results:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{veganlike_pca =}\StringTok{ }\KeywordTok{pcwOrd}\NormalTok{(comm, }\DataTypeTok{as_vegan=}\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{vegan_pca =}\StringTok{ }\KeywordTok{rda}\NormalTok{(comm)}
+
+\KeywordTok{rbind}\NormalTok{(}\DataTypeTok{pcwOrd =}\NormalTok{ veganlike_pca}\OperatorTok{$}\NormalTok{unconstrained}\OperatorTok{$}\NormalTok{d}\OperatorTok{^}\DecValTok{2}\NormalTok{, }
+      \DataTypeTok{vegan =}\NormalTok{ vegan_pca}\OperatorTok{$}\NormalTok{CA}\OperatorTok{$}\NormalTok{eig)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             PC1      PC2      PC3      PC4      PC5     PC6      PC7      PC8
+## pcwOrd 3132.805 731.3285 315.9311 145.8792 70.56507 51.6936 34.40816 28.96164
+## vegan  3132.805 731.3285 315.9311 145.8792 70.56507 51.6936 34.40816 28.96164
+##             PC9     PC10     PC11     PC12
+## pcwOrd 20.82374 10.03027 8.256867 2.344583
+## vegan  20.82374 10.03027 8.256867 2.344583
+\end{verbatim}
+
+These weightings don't change relative variance or relative distances,
+only absolute variances and distances. Generally, we're concerned with
+relative variances and distances, so the choice of (equal) weighting
+doesn't matter.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{list}\NormalTok{(}
+  \DataTypeTok{coda_weightings =} \KeywordTok{ord_variance}\NormalTok{(pca)}\OperatorTok{$}\NormalTok{unconstrained,}
+  \DataTypeTok{vegan_weightings =} \KeywordTok{ord_variance}\NormalTok{(veganlike_pca)}\OperatorTok{$}\NormalTok{unconstrained}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $coda_weightings
+##              uAxis1   uAxis2    uAxis3    uAxis4   uAxis5   uAxis6    uAxis7
+## value     251.74327 58.76747 25.387317 11.722435 5.670407 4.153950 2.7649418
+## pct_group  68.80707 16.06246  6.938922  3.204004 1.549849 1.135367 0.7557205
+## pct_total  68.80707 16.06246  6.938922  3.204004 1.549849 1.135367 0.7557205
+##              uAxis8    uAxis9   uAxis10   uAxis11    uAxis12
+## value     2.3272743 1.6733360 0.8060037 0.6634983 0.18840395
+## pct_group 0.6360962 0.4573602 0.2202989 0.1813489 0.05149502
+## pct_total 0.6360962 0.4573602 0.2202989 0.1813489 0.05149502
+## 
+## $vegan_weightings
+##               uAxis1    uAxis2     uAxis3     uAxis4    uAxis5    uAxis6
+## value     3132.80514 731.32847 315.931051 145.879186 70.565070 51.693597
+## pct_group   68.80707  16.06246   6.938922   3.204004  1.549849  1.135367
+## pct_total   68.80707  16.06246   6.938922   3.204004  1.549849  1.135367
+##               uAxis7     uAxis8     uAxis9    uAxis10   uAxis11    uAxis12
+## value     34.4081650 28.9616352 20.8237366 10.0302687 8.2568673 2.34458251
+## pct_group  0.7557205  0.6360962  0.4573602  0.2202989 0.1813489 0.05149502
+## pct_total  0.7557205  0.6360962  0.4573602  0.2202989 0.1813489 0.05149502
+\end{verbatim}
+
+\texttt{vegan::permutest()} gives the same as
+\texttt{pcwOrd::permute\_ord()}, if you set the same seed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{vegan_rda =}\StringTok{ }\KeywordTok{rda}\NormalTok{(comm, X)}
+\NormalTok{veganlike_rda =}\StringTok{ }\KeywordTok{pcwOrd}\NormalTok{(comm, X, }\DataTypeTok{as_vegan=}\OtherTok{TRUE}\NormalTok{)}
+
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{445}\NormalTok{)}
+\NormalTok{vegan_permutes =}\StringTok{ }\KeywordTok{permutest}\NormalTok{(vegan_rda, }
+                           \DataTypeTok{permutations=}\DecValTok{999}\NormalTok{)}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{445}\NormalTok{)}
+\NormalTok{pcw_permutes =}\StringTok{ }\KeywordTok{permute_ord}\NormalTok{(veganlike_rda)}
+\NormalTok{keep =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'fitted'}\NormalTok{, }\StringTok{'residuals'}\NormalTok{, }\StringTok{'num_df'}\NormalTok{, }\StringTok{'denom_df'}\NormalTok{, }\StringTok{'F_stat'}\NormalTok{, }\StringTok{'p_val'}\NormalTok{)}
+
+\KeywordTok{list}\NormalTok{(}\DataTypeTok{vegan =}\NormalTok{ vegan_permutes,}
+     \DataTypeTok{pcwOrd =}\NormalTok{ pcw_permutes[keep])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $vegan
+## 
+## Permutation test for rda under reduced model 
+## 
+## Permutation: free
+## Number of permutations: 999
+##  
+## Model: rda(X = comm, Y = X)
+## Permutation test for all constrained eigenvalues
+##          Df Inertia      F Pr(>F)   
+## Model     2  1228.6 4.6196  0.004 **
+## Residual 25  3324.4                 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## $pcwOrd
+##     fitted residuals num_df denom_df   F_stat p_val
+## 1 1228.597  3324.431      2       25 4.619575 0.004
+\end{verbatim}
+
+\hypertarget{additional-plotting-options}{%
+\section{Additional plotting
+options}\label{additional-plotting-options}}
+
+\hypertarget{added-categories}{%
+\subsection{Added categories}\label{added-categories}}
+
+Add groupings to any ordination. They can be continuous.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{row_group =}\StringTok{ }\NormalTok{envi[, }\StringTok{'soil.cat'}\NormalTok{, drop=}\OtherTok{FALSE}\NormalTok{]}
+\KeywordTok{plot_ord}\NormalTok{(pca, }
+         \DataTypeTok{row_group=}\NormalTok{row_group, }
+         \DataTypeTok{main=}\StringTok{'PCA with groupings by soil moisture class'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rescaling standard scores by 10.12
+\end{verbatim}
+
+\includegraphics{pcwOrd-Vignette_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+\hypertarget{different-axes}{%
+\subsection{Different axes}\label{different-axes}}
+
+Plot different axes
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot_ord}\NormalTok{(pca, }
+         \DataTypeTok{row_group=}\NormalTok{row_group, }
+         \DataTypeTok{axes=}\KeywordTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{5}\NormalTok{), }
+         \DataTypeTok{main=}\StringTok{'PCA axes 3 and 5'}\NormalTok{,}
+         \DataTypeTok{color_legend_position=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rescaling standard scores by 3.592
+\end{verbatim}
+
+\includegraphics{pcwOrd-Vignette_files/figure-latex/unnamed-chunk-20-1.pdf}
+
+\hypertarget{limit-column-labels}{%
+\subsection{Limit column labels}\label{limit-column-labels}}
+
+Reduce clutter by only labeling the top columns (by plotted score)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot_ord}\NormalTok{(pca, }
+         \DataTypeTok{row_group=}\NormalTok{row_group, }
+         \DataTypeTok{max_labels=}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rescaling standard scores by 10.12
+\end{verbatim}
+
+\includegraphics{pcwOrd-Vignette_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+\hypertarget{colors-and-shapes}{%
+\subsection{colors and shapes}\label{colors-and-shapes}}
+
+Change the colors of text, groupings, arrows, and change shapes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{new_colors =}\StringTok{ }\KeywordTok{hcl.colors}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DataTypeTok{palette=}\StringTok{'Viridis'}\NormalTok{)}
+
+\KeywordTok{plot_ord}\NormalTok{(pca, }
+         \DataTypeTok{row_group=}\NormalTok{row_group, }
+         \DataTypeTok{max_labels=}\DecValTok{5}\NormalTok{, }
+         \DataTypeTok{discrete_scale=}\NormalTok{new_colors,}
+         \DataTypeTok{col_text=}\StringTok{'green'}\NormalTok{, }
+         \DataTypeTok{main=}\StringTok{'Fluorescent PCA'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rescaling standard scores by 10.12
+\end{verbatim}
+
+\includegraphics{pcwOrd-Vignette_files/figure-latex/unnamed-chunk-22-1.pdf}
+
+If you constrain an ordination with categories, the plot function will
+automatically recognize these and plot them as named centeroids:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{X =}\StringTok{ }\NormalTok{envi[, }\StringTok{'soil.cat'}\NormalTok{, drop=}\OtherTok{FALSE}\NormalTok{]}
+\NormalTok{Y =}\StringTok{ }\KeywordTok{CLR}\NormalTok{(closed_comm)}
+
+\NormalTok{cat_cwLRA =}\StringTok{ }\KeywordTok{pcwOrd}\NormalTok{(Y, X)}
+
+\KeywordTok{plot_ord}\NormalTok{(cat_cwLRA, }
+         \DataTypeTok{main=}\StringTok{'Spiders wLRA with Centeroids'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rescaling standard scores by 0.1624
+\end{verbatim}
+
+\includegraphics{pcwOrd-Vignette_files/figure-latex/unnamed-chunk-23-1.pdf}
+
+\hypertarget{screeplots-as-grobs}{%
+\subsection{Screeplots as grobs}\label{screeplots-as-grobs}}
+
+Screeplots can be produced as grobs (via ggplot2) for downstream
+manipulation, saving as R objects, and arranging with
+\texttt{gridExtra}. If you want to do this with ordinations, you're on
+your own!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ord_scree}\NormalTok{(cat_cwLRA, }\DataTypeTok{main=}\StringTok{'ggplot2 Scree Plot'}\NormalTok{, }\DataTypeTok{as_grob=}\OtherTok{TRUE}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{theme_dark}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: ggplot2
+\end{verbatim}
+
+\includegraphics{pcwOrd-Vignette_files/figure-latex/unnamed-chunk-24-1.pdf}
+
+\end{document}

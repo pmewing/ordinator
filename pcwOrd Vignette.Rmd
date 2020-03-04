@@ -1,13 +1,19 @@
 ---
-title: "pcwOrd: (partial) (constrained) (weighted) ordination"
-author: "PME"
-date: "3/2/2020"
-output: html_document
+title: 'pcwOrd: (partial) (constrained) (weighted) ordination'
+author: "Patrick Ewing"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: 
+    number_sections: true
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+\tableofcontents
+\newpage
 
 # Motivation
 
@@ -23,26 +29,20 @@ Weighted log-ratio analysis down-weights these uncertain, low-abundance features
 
 This isn't an R package yet, so load the functions with `source()`:
 
-```{r message=FALSE}
-# Libraries
+```{r message=FALSE, warning=FALSE}
 libs = c('easyCODA',  # log-ratio analysis and CLR analysis
-         'vegan',     # multivariate statistics
-         'here')      # find files in your project directory
-
-load_libs = function() {
-  for(i in libs) {
-    if (!require(i, character.only=TRUE)) {
-      install.packages(i)
-      library(i, character.only=TRUE)
-    }
-  }
-}
-load_libs()
+         'vegan')     # multivariate statistics
+for(i in libs) {
+  if (!require(i, character.only=TRUE)) {
+    install.packages(i)
+    if (!require(i, character.only=TRUE)) stop(paste("Cannot load", i))
+  }}
 
 # pcwOrd
-source(here('Scripts', 'pcwOrd', 'pcwOrd.R'))
+load('pcwOrd_0.1.Rdata')
 
-spider = readRDS(here('Scripts', 'pcwOrd', 'Spider.RDS'))
+# data
+spider = readRDS('Spider.RDS')
 ```
 
 
@@ -237,7 +237,7 @@ X = envi[, c('moss', 'reflection'), drop=FALSE]
 pcrda = pcwOrd(closed_comm, X, Z)
 
 plot_ord(pcrda, 
-         main='Spiders by moss, partialed by wetness', 
+         main='Spiders by moss and reflection, partialed by wetness', 
          shape_legend_position=c(-0.04, 0.01))
 ```
 
@@ -262,9 +262,13 @@ plot_ord(pcw_ord,
 
 
 # Comparison to `vegan` and `easyCODA`
+`pcwOrd` gives the same results as comparable `vegan` and `easycCODA` functions.
+
+## Eigenvalues
 Returning to eigenvalues: these eigenvalues are exactly the same as calculated by easyCODA's PCA, and solutions are the same:
 ```{r}
 easy_pca = PCA(comm, weight=FALSE)
+
 rbind(pcwOrd = pca$unconstrained$d^2,
       easyCODA = easy_pca$sv^2
 )
@@ -289,6 +293,16 @@ list(
 )
 ```
 
+## Scores
+
+```{r}
+ord_scores(pca, 'row', 'principle')
+easy_pca$rowcoord[, 1:2]
+```
+
+
+
+## Permutation Tests
 `vegan::permutest()` gives the same as `pcwOrd::permute_ord()`, if you set the same seed.
 
 ```{r}
