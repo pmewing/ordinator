@@ -21,11 +21,11 @@ Many ordination packages exist for ecologists using R - `vegan` is excellent, fo
 
 The motivation for this is to analyze compositional ecological data - especially high throughput sequencing data - with methods that are robust, reproducible, and transparent. Compositional data contains only relative data (think relative abundance), and so requires a bit of extra care to analyze. The dominant approach is to perform a log-ratio transformation, then use principle components analysis - combined, this is called log-ratio analysis. For an enterance into this literature, see Greenacre and Aitchison (2002), Greenacre and Lewi (2009), and Quinn et al (2018). 
 
-In particular, Greenacre and Lewi (2002) suggest using weighted log-ratio analysis, as unweighted log-ratio analysis is susceptible to noise in low-abundance features. Raw values of low-abundance features have higher relative variance than raw values of high-abundance features; therefore, the log-ratios of low abundance features are also noisy. When low-abundance features dominate a solution the distances and inferences made about samples is less robust to error and noise. Note that correspondence analysis also is suceptible to dominance by low-abundance features. 
+In particular, Greenacre and Lewi (2009) suggest using weighted log-ratio analysis, as unweighted log-ratio analysis is susceptible to noise in low-abundance features. Raw values of low-abundance features have higher relative variance than raw values of high-abundance features; therefore, the log-ratios of low abundance features are also of lower certainty. When low-abundance features dominate a solution the distances and inferences made about samples is less robust to error and noise. Note that correspondence analysis also is suceptible to dominance by low-abundance features. 
 
 Weighted log-ratio analysis down-weights these uncertain, low-abundance features. As a result, the observed distances among samples should be more reproducible across experiments.
 
-`vegan` can perform constrained and partiald log-ratio analysis if the community matrix is log-transformed beforehand. However, it does not provide a straightforward way to weight columns and working with ordination objects is not intuitive. `easyCODA` allows weighted and constrained log-ratio analysis, but does not allow partialing of nuisance effects and does not provide hypothesis testing. `pcwOrd` allows partialed, constrained, and weighted ordinations, and also provides utility functions for investigating ordination objects, visualization, and hypothesis testing. The code is written to be self-documenting. Maybe you'll agree.
+`vegan` can perform constrained and partialed log-ratio analysis if the community matrix is log-transformed beforehand. However, it does not provide a straightforward way to weight columns and working with ordination objects is not intuitive. `easyCODA` allows weighted and constrained log-ratio analysis, but does not allow partialing of nuisance effects and does not provide hypothesis testing. `pcwOrd` allows partialed, constrained, and weighted ordinations, and also provides utility functions for investigating ordination objects, visualization, and hypothesis testing. The code is written to be self-documenting. Maybe you'll agree.
 
 This isn't an R package yet, so load the functions with `source()`:
 
@@ -238,7 +238,7 @@ pcrda = pcwOrd(closed_comm, X, Z)
 
 plot_ord(pcrda, 
          main='Spiders by moss and reflection, partialed by wetness', 
-         shape_legend_position=c(-0.04, 0.01))
+         shape_legend_position=c(-0.2, 0.05))
 ```
 
 Each of the wetness categories is centered at zero, as expected due to partialing. Moss increases to the bottom left (darker red, and arrows). This model is highly significant:
@@ -257,7 +257,7 @@ pcw_ord = pcwOrd(Y, X, Z)
 
 plot_ord(pcw_ord, 
          main='Partialed, Constrained, Weighted Log-Ratio Analysis', 
-         shape_legend_position=c(-0.4, 0.1))
+         shape_legend_position=c(-2, 0.4))
 ```
 
 
