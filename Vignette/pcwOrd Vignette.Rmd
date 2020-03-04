@@ -39,7 +39,7 @@ for(i in libs) {
   }}
 
 # pcwOrd
-load('pcwOrd_0.1.Rdata')
+load('../pcwOrd_0.1.Rdata')
 
 # data
 spider = readRDS('Spider.RDS')
