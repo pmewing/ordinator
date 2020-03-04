@@ -38,30 +38,22 @@
              'c'=ncol(P))
   
   if (!weight[1]) {
-    wt = rep(1, n)
+    wt = rep(1/n, n)
     
     if (as_vegan) {          # vegan style
-      wt_init = switch(choice,
+      wt = switch(choice,
                        'r' = rep(1/(n-1), n), 
                        'c' = rep(1, n))
       
-    } else {                 # easyCODA style
-      wt_init = rep(1/n, n)
     }
-    
   } else if (is.logical(weight)) {
     wt = switch(choice,
                 'r'=1/rowSums(P),
                 'c'=1/colSums(P))
-    wt_init = wt
-    
   } else {
     wt = weight
-    wt_init = wt
   }
-  
-  out = list(wt = wt, 
-             wt_init = wt_init)
+  return(wt)
 }
 
 .make_dummy = function(X=NULL, nr=NULL) {
@@ -161,16 +153,11 @@ pcwOrd = function(Y,
   Y = as.matrix(Y)
   
   # Define weights
-  w = .make_weights(Y, 'row', weight_rows, as_vegan)
-  rw = w$wt
-  rw_init = w$wt_init
-  
-  w = .make_weights(Y, 'col', weight_columns, as_vegan)
-  cw = w$wt
-  cw_init = w$wt_init
+  rw = .make_weights(Y, 'row', weight_rows, as_vegan)
+  cw = .make_weights(Y, 'col', weight_columns, as_vegan)
   
   # scale and weight Y
-  Y = .prepare_matrix(Y, rw=rw_init, cw=cw_init, as_CA)
+  Y = .prepare_matrix(Y, rw=rw, cw=cw, as_CA)
   
   # Partial Z from Y
   if (is.null(Z)) {
