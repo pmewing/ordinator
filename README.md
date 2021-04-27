@@ -1,4 +1,4 @@
-# ordinator
+# wordinator
 Calculate, test, and visualize partial, constrained, and weighted ordinations. fka [pcwOrd](https://github.com/pmewing/pcwOrd).
 
 # "Installation"
